@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - SwiftBite AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .checkout-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .back-home {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .order-summary, .delivery-info, .payment-methods {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .order-total {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .payment-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-option {
+            cursor: pointer;
+        }
+
+        .payment-option input {
+            display: none;
+        }
+
+        .payment-card {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .payment-option input:checked + .payment-card {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+        }
+
+        .payment-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .place-order-btn, .track-order-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .track-order-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .order-success {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .order-success i {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .tracking-status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fff3cd;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-content {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <a href="/" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <h1><i class="fas fa-clipboard-list"></i> Checkout</h1>
+        </div>
+        
+        <div class="checkout-content" id="checkoutForm">
+            <div class="order-summary">
+                <h2>Your Order</h2>
+                <div id="orderItems"></div>
+                <div class="order-total">
+                    <span>Total:</span>
+                    <span id="orderTotal">₹0</span>
+                </div>
+            </div>
+            
+            <div class="delivery-info">
+                <h2>Your Details</h2>
+                <form id="deliveryForm">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" required placeholder="10-digit mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea id="address" required placeholder="House number, street, landmark, city, pincode"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions (Optional)</label>
+                        <textarea id="instructions" placeholder="Any special requests?"></textarea>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="payment-methods">
+                <h2>Payment Method</h2>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="Cash on Delivery" checked>
+                        <div class="payment-card">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h4>Cash on Delivery</h4>
+                            <p>Pay when you receive</p>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="UPI">
+                        <div class="payment-card">
+                            <i class="fas fa-qrcode"></i>
+                            <h4>UPI Payment</h4>
+                            <p>Google Pay, PhonePe, Paytm</p>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="Card">
+                        <div class="payment-card">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Card Payment</h4>
+                            <p>Credit/Debit Card</p>
+                        </div>
+                    </label>
+                </div>
+                <button class="place-order-btn" id="placeOrderBtn">
+                    <i class="fas fa-check-circle"></i> Place Order
+                </button>
+            </div>
+        </div>
+        
+        <div id="orderSuccess" style="display: none;" class="checkout-content">
+            <div class="order-success">
+                <i class="fas fa-check-circle"></i>
+                <h2>Order Placed Successfully! 🎉</h2>
+                <p id="orderIdDisplay"></p>
+                <p>Your order has been confirmed. You can track your order status using your phone number.</p>
+                <button class="track-order-btn" onclick="trackMyOrder()">
+                    <i class="fas fa-map-marker-alt"></i> Track My Order
+                </button>
+                <button class="place-order-btn" onclick="window.location.href='/'" style="margin-top: 1rem;">
+                    <i class="fas fa-home"></i> Back to Home
+                </button>
+            </div>
+        </div>
+        
+        <div id="trackingSection" style="display: none;" class="checkout-content">
+            <div class="order-success">
+                <i class="fas fa-truck"></i>
+                <h2>Track Your Order</h2>
+                <div class="form-group">
+                    <label>Enter Phone Number</label>
+                    <input type="tel" id="trackPhone" placeholder="Enter your phone number">
+                    <button class="track-order-btn" onclick="checkOrderStatus()" style="margin-top: 1rem;">
+                        <i class="fas fa-search"></i> Track Order
+                    </button>
+                </div>
+                <div id="trackingResult" style="margin-top: 2rem;"></div>
+                <button class="place-order-btn" onclick="window.location.href='/'" style="margin-top: 1rem;">
+                    Back to Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {{ cart | tojson }};
+        let total = {{ total }};
+        
+        // Display order items
+        function displayOrderItems() {
+            const orderItemsDiv = document.getElementById('orderItems');
+            const orderTotalSpan = document.getElementById('orderTotal');
+            
+            if (cart.length === 0) {
+                orderItemsDiv.innerHTML = '<p>Your cart is empty</p>';
+                return;
+            }
+            
+            let itemsHtml = '';
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                itemsHtml += `
+                    <div class="order-item">
+                        <div>
+                            <strong>${item.name}</strong>
+                            <br>
+                            <small>Quantity: ${item.quantity} × ₹${item.price}</small>
+                        </div>
+                        <div>₹${subtotal}</div>
+                    </div>
+                `;
+            });
+            
+            orderItemsDiv.innerHTML = itemsHtml;
+            orderTotalSpan.textContent = `₹${total}`;
+        }
+        
+        // Place order
+        document.getElementById('placeOrderBtn').addEventListener('click', async () => {
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            if (!fullName || !phone || !address) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (!/^\d{10}$/.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
+            }
+            
+            const orderData = {
+                customer: {
+                    name: fullName,
+                    phone: phone,
+                    address: address,
+                    instructions: document.getElementById('instructions').value
+                },
+                payment_method: paymentMethod
+            };
+            
+            try {
+                const response = await fetch('/api/place_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store phone number for tracking
+                    localStorage.setItem('lastOrderPhone', phone);
+                    localStorage.setItem('lastOrderId', data.order_id);
+                    
+                    document.getElementById('orderIdDisplay').innerHTML = `
+                        Order ID: #${data.order_id}<br>
+                        We'll send updates to ${phone}
+                    `;
+                    document.getElementById('checkoutForm').style.display = 'none';
+                    document.getElementById('orderSuccess').style.display = 'block';
+                } else {
+                    alert('Failed to place order. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error placing order');
+            }
+        });
+        
+        // Track order function
+        window.trackMyOrder = function() {
+            document.getElementById('orderSuccess').style.display = 'none';
+            document.getElementById('trackingSection').style.display = 'block';
+            
+            const lastPhone = localStorage.getItem('lastOrderPhone');
+            if (lastPhone) {
+                document.getElementById('trackPhone').value = lastPhone;
+                checkOrderStatus();
+            }
+        };
+        
+        // Check order status
+        window.checkOrderStatus = async function() {
+            const phone = document.getElementById('trackPhone').value;
+            
+            if (!phone || !/^\d{10}$/.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/user_orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.orders.length > 0) {
+                    let trackingHtml = '<h3>Your Orders</h3>';
+                    
+                    data.orders.forEach(order => {
+                        const status = order.status || 'confirmed';
+                        const statusText = getStatusText(status);
+                        const statusIcon = getStatusIcon(status);
+                        
+                        trackingHtml += `
+                            <div style="background: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                                <h4>Order #${order.id}</h4>
+                                <p>Date: ${order.timestamp}</p>
+                                <p>Total: ₹${order.total}</p>
+                                <div style="margin-top: 1rem;">
+                                    <strong>Order Status:</strong>
+                                    <div style="margin-top: 0.5rem;">
+                                        ${statusIcon}
+                                        <span style="color: ${getStatusColor(status)}; font-weight: bold;">${statusText}</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1rem;">
+                                    <strong>Items:</strong>
+                                    <ul>
+                                        ${order.items.map(item => `<li>${item.quantity}x ${item.name} - ₹${item.price * item.quantity}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div style="margin-top: 1rem; padding: 0.5rem; background: #f0f0f0; border-radius: 5px;">
+                                    <small>Delivery Address: ${order.customer.address}</small>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    document.getElementById('trackingResult').innerHTML = trackingHtml;
+                } else {
+                    document.getElementById('trackingResult').innerHTML = `
+                        <div style="background: #fff3cd; padding: 1rem; border-radius: 10px;">
+                            <i class="fas fa-search"></i> No orders found for this phone number.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('trackingResult').innerHTML = `
+                    <div style="background: #f8d7da; padding: 1rem; border-radius: 10px; color: #721c24;">
+                        Error fetching orders. Please try again.
+                    </div>
+                `;
+            }
+        };
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'confirmed': '✅ Order Confirmed - Kitchen is preparing your food',
+                'preparing': '👨‍🍳 Being Prepared - Your food is being cooked',
+                'delivered': '🚚 Order Delivered - Enjoy your meal!',
+                'cancelled': '❌ Order Cancelled'
+            };
+            return statusMap[status] || 'Order Placed';
+        }
+        
+        function getStatusIcon(status) {
+            const iconMap = {
+                'confirmed': '📝',
+                'preparing': '🍳',
+                'delivered': '🎉',
+                'cancelled': '❌'
+            };
+            return iconMap[status] || '📦';
+        }
+        
+        function getStatusColor(status) {
+            const colorMap = {
+                'confirmed': '#ff9800',
+                'preparing': '#2196f3',
+                'delivered': '#4caf50',
+                'cancelled': '#f44336'
+            };
+            return colorMap[status] || '#666';
+        }
+        
+        // Initialize
+        displayOrderItems();
+    </script>
+</body>
+</html>
