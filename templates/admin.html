@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SwiftBite AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+        }
+        
+        .sidebar nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .section h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .orders-table {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .status-confirmed {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .status-preparing {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .status-delivered {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-cancelled {
+            background: #f44336;
+            color: white;
+        }
+        
+        .status-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .status-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-confirm {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-prepare {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .btn-deliver {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        
+        .add-item-form {
+            display: grid;
+            gap: 1rem;
+            max-width: 500px;
+        }
+        
+        .add-item-form input,
+        .add-item-form select,
+        .add-item-form textarea {
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .main-content {
+                padding: 1rem;
+            }
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .status-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        .order-details {
+            max-width: 300px;
+        }
+        
+        .order-details p {
+            margin: 0.25rem 0;
+            font-size: 0.85rem;
+        }
+        
+        .tracking-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .timeline-step {
+            text-align: center;
+            flex: 1;
+            font-size: 0.7rem;
+        }
+        
+        .timeline-step.active {
+            color: #4caf50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="sidebar">
+            <h2><i class="fas fa-crown"></i> SwiftBite Admin</h2>
+            <nav>
+                <a class="active" data-section="dashboard">
+                    <i class="fas fa-dashboard"></i> Dashboard
+                </a>
+                <a data-section="orders">
+                    <i class="fas fa-shopping-cart"></i> Orders
+                </a>
+                <a data-section="menu">
+                    <i class="fas fa-utensils"></i> Menu
+                </a>
+            </nav>
+        </div>
+        
+        <div class="main-content">
+            <div id="dashboard" class="section">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <h3>Total Orders</h3>
+                        <div class="stat-number" id="totalOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="stat-number" id="totalRevenue">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Orders</h3>
+                        <div class="stat-number" id="activeOrders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Completed</h3>
+                        <div class="stat-number" id="completedOrders">0</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="background: #dc3545; color: white;">
+                    <h3 style="color: white;">Danger Zone</h3>
+                    <button onclick="clearAllOrders()" style="background: white; color: #dc3545; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-top: 0.5rem;">
+                    🗑️ Clear All Orders </button>
+                </div>
+            </div>
+            
+            <div id="orders" class="section" style="display: none;">
+                <h2>📦 Manage Orders</h2>
+                <div class="orders-table">
+                    <table id="ordersTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Payment</th>
+                                <th>Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr><td colspan="8" style="text-align: center;">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="menu" class="section" style="display: none;">
+                <h2>Add New Food Item</h2>
+                <form class="add-item-form" id="addItemForm">
+                    <input type="text" placeholder="Item Name" id="itemName" required>
+                    <select id="itemCategory">
+                        <option value="Pizza">Pizza</option>
+                        <option value="Burgers">Burgers</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="South Indian">South Indian</option>
+                        <option value="Desserts">Desserts</option>
+                        <option value="Combo Meals">Combo Meals</option>
+                    </select>
+                    <input type="number" placeholder="Price (₹)" id="itemPrice" required>
+                    <textarea placeholder="Description" id="itemDescription" rows="3"></textarea>
+                    <button type="submit" class="btn-primary">➕ Add Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load orders from API
+        async function loadOrders() {
+            try {
+                const response = await fetch('/api/orders');
+                const orders = await response.json();
+                
+                // Update stats
+                const totalOrders = orders.length;
+                const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+                const activeOrders = orders.filter(o => o.status === 'confirmed' || o.status === 'preparing').length;
+                const completedOrders = orders.filter(o => o.status === 'delivered').length;
+                
+                document.getElementById('totalOrders').textContent = totalOrders;
+                document.getElementById('totalRevenue').textContent = `₹${totalRevenue}`;
+                document.getElementById('activeOrders').textContent = activeOrders;
+                document.getElementById('completedOrders').textContent = completedOrders;
+                
+                // Update orders table
+                const tbody = document.getElementById('ordersTableBody');
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No orders yet</td></tr>';
+                } else {
+                    tbody.innerHTML = orders.map(order => `
+                        <tr>
+                            <td><strong>#${order.id}</strong><br><small>${order.timestamp?.split(' ')[0] || 'N/A'}</small></td>
+                            <td>
+                                <strong>${order.customer?.name || 'Guest'}</strong><br>
+                                <small>${order.customer?.address?.substring(0, 50) || 'No address'}...</small>
+                            </td>
+                            <td>${order.customer?.phone || 'N/A'}</td>
+                            <td>
+                                ${order.items?.map(item => `${item.quantity}x ${item.name}`).join('<br>') || 'No items'}
+                            </td>
+                            <td><strong>₹${order.total || 0}</strong></td>
+                            <td>${order.payment_method || 'COD'}</td>
+                            <td>
+                                <span class="status-badge status-${order.status || 'confirmed'}">
+                                    ${getStatusIcon(order.status)} ${getStatusText(order.status)}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="status-buttons">
+                                    <button class="status-btn btn-confirm" onclick="updateOrderStatus(${order.id}, 'confirmed')">
+                                        ✅ Confirm
+                                    </button>
+                                    <button class="status-btn btn-prepare" onclick="updateOrderStatus(${order.id}, 'preparing')">
+                                        🍳 Prepare
+                                    </button>
+                                    <button class="status-btn btn-deliver" onclick="updateOrderStatus(${order.id}, 'delivered')">
+                                        🚚 Deliver
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersTableBody').innerHTML = '<tr><td colspan="8" style="text-align: center; color: red;">Error loading orders</td></tr>';
+            }
+        }
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'confirmed': 'Order Confirmed',
+                'preparing': 'Being Prepared',
+                'delivered': 'Delivered',
+                'cancelled': 'Cancelled'
+            };
+            return statusMap[status] || 'Confirmed';
+        }
+        
+        function getStatusIcon(status) {
+            const iconMap = {
+                'confirmed': '✅',
+                'preparing': '🍳',
+                'delivered': '🎉',
+                'cancelled': '❌'
+            };
+            return iconMap[status] || '📝';
+        }
+        
+        // Update order status
+        window.updateOrderStatus = async function(orderId, newStatus) {
+            const statusText = getStatusText(newStatus);
+            if (confirm(`Update order #${orderId} to "${statusText}"?`)) {
+                try {
+                    const response = await fetch('/api/update_order_status', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ order_id: orderId, status: newStatus })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        alert(`✓ Order #${orderId} updated to ${statusText}`);
+                        loadOrders(); // Reload orders
+                    } else {
+                        alert('Error updating order status');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error updating order status');
+                }
+            }
+        };
+        
+        // Load menu items
+        async function loadMenuItems() {
+            try {
+                const response = await fetch('/api/menu');
+                const menuData = await response.json();
+                // Update menu display if needed
+            } catch (error) {
+                console.error('Error loading menu:', error);
+            }
+        }
+        
+        // Add new menu item
+        document.getElementById('addItemForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const itemData = {
+                name: document.getElementById('itemName').value,
+                category: document.getElementById('itemCategory').value,
+                price: parseInt(document.getElementById('itemPrice').value),
+                description: document.getElementById('itemDescription').value
+            };
+            
+            try {
+                const response = await fetch('/api/add_menu_item', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(itemData)
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✓ Item added successfully!');
+                    document.getElementById('addItemForm').reset();
+                } else {
+                    alert('Error adding item: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding item');
+            }
+        });
+        
+        // Section navigation
+        const navLinks = document.querySelectorAll('.sidebar nav a');
+        const sections = {
+            dashboard: document.getElementById('dashboard'),
+            orders: document.getElementById('orders'),
+            menu: document.getElementById('menu')
+        };
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.dataset.section;
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                Object.values(sections).forEach(s => s.style.display = 'none');
+                sections[section].style.display = 'block';
+                
+                if (section === 'orders') {
+                    loadOrders();
+                }
+            });
+        });
+        
+        // Auto-refresh orders every 30 seconds
+        setInterval(() => {
+            if (document.getElementById('orders').style.display !== 'none') {
+                loadOrders();
+            }
+        }, 30000);
+        
+        // Initial load
+        loadOrders();
+
+
+        async function deleteOrder(orderId) {
+    if (confirm(`Delete order #${orderId}? This action cannot be undone.`)) {
+        try {
+            const response = await fetch(`/api/delete_order/${orderId}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert('Order deleted successfully!');
+                loadOrders(); // Refresh orders list
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error deleting order');
+        }
+    }
+    async function clearAllOrders() {
+    if (confirm('⚠️ WARNING: This will delete ALL orders permanently! This action cannot be undone. Are you sure?')) {
+        const confirmText = prompt('Type "DELETE ALL" to confirm:');
+        if (confirmText === 'DELETE ALL') {
+            try {
+                const response = await fetch('/api/clear_all_orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert('✅ All orders cleared successfully!');
+                    loadOrders(); // Refresh the page
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error clearing orders');
+            }
+        } else {
+            alert('Clear orders cancelled');
+        }
+    }
+}
+}
+    </script>
+</body>
+</html>
