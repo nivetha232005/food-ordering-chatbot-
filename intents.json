@@ -1,0 +1,59 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "Hi there", "Hello there", "Good morning", "Good evening", "Hey there"],
+      "responses": ["Hello! Welcome to SwiftBite AI! 🍔 How can I help you today?", "Hi there! Ready to order some delicious food?", "Hey! Welcome to SwiftBite! What would you like to eat?"]
+    },
+    {
+      "tag": "show_menu",
+      "patterns": ["Show menu", "What food do you have?", "Show me the menu", "What's on the menu?", "Menu please", "I want to see the menu", "What do you serve?", "List all items"],
+      "responses": ["Here's our delicious menu! 🍕🍔🥤", "Check out our tasty offerings below!", "Here's what we have for you today!"]
+    },
+    {
+      "tag": "add_to_cart",
+      "patterns": ["I want", "I would like", "Order", "Add", "Get me", "Can I have", "I'll have", "Please add", "I need"],
+      "responses": ["Added to your cart! 🛒", "Item added! Anything else?", "Got it! Added to your order."]
+    },
+    {
+      "tag": "remove_item",
+      "patterns": ["Remove", "Delete", "Take off", "Cancel", "Remove item", "Delete from cart", "Take out"],
+      "responses": ["Removed from your cart.", "Item has been removed.", "Deleted from your order."]
+    },
+    {
+      "tag": "view_cart",
+      "patterns": ["View cart", "Show cart", "What's in my cart?", "My cart", "Cart items", "Show my order", "List cart"],
+      "responses": ["Here's what's in your cart:"]
+    },
+    {
+      "tag": "checkout",
+      "patterns": ["Checkout", "Place order", "Order now", "Buy now", "Complete order", "Pay now", "Ready to pay"],
+      "responses": ["Great! Let's proceed to checkout.", "Time to complete your order!", "Proceeding to checkout..."]
+    },
+    {
+      "tag": "quantity",
+      "patterns": ["quantity", "more", "extra", "add more", "increase quantity", "change quantity"],
+      "responses": ["Quantity updated!", "Got it, quantity changed."]
+    },
+    {
+      "tag": "payment",
+      "patterns": ["Pay", "Payment", "How to pay?", "Payment options", "Pay online", "Cash on delivery"],
+      "responses": ["We accept Cash on Delivery, UPI, and Card payments.", "Choose your preferred payment method."]
+    },
+    {
+      "tag": "order_status",
+      "patterns": ["Order status", "Where's my order?", "Order tracking", "Status of my order", "Is my order ready?"],
+      "responses": ["Your order is being prepared! 🍳", "Chef is cooking your delicious meal!"]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "Appreciate it", "Thank you so much", "Thanks a lot"],
+      "responses": ["You're welcome! 🍽️", "Happy to serve you!", "Thank you for ordering with SwiftBite!"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "Goodbye", "See you", "Exit", "Quit", "Close", "That's all"],
+      "responses": ["Goodbye! Come back soon! 🍔", "See you next time! Stay hungry!", "Thanks for visiting SwiftBite AI!"]
+    }
+  ]
+}
