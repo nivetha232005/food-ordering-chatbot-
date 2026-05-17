@@ -1,0 +1,178 @@
+{
+  "categories": [
+    {
+      "name": "Pizza",
+      "items": [
+        {
+          "id": 1,
+          "name": "Margherita Pizza",
+          "price": 299,
+          "description": "Classic cheese and tomato pizza",
+          "category": "Pizza",
+          "image": "/static/images/pizza/margherita-pizza.jpg"
+        },
+        {
+          "id": 2,
+          "name": "Pepperoni Pizza",
+          "price": 399,
+          "description": "Spicy pepperoni with cheese",
+          "category": "Pizza",
+          "image": "/static/images/pizza/pepperoni-pizza.jpg"
+        },
+        {
+          "id": 3,
+          "name": "Farmhouse Pizza",
+          "price": 449,
+          "description": "Fresh vegetables and herbs",
+          "category": "Pizza",
+          "image": "/static/images/pizza/farmhouse-pizza.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Burgers",
+      "items": [
+        {
+          "id": 4,
+          "name": "Veg Burger",
+          "price": 99,
+          "description": "Crunchy veg patty burger",
+          "category": "Burgers",
+          "image": "/static/images/burgers/veg-burger.jpg"
+        },
+        {
+          "id": 5,
+          "name": "Chicken Burger",
+          "price": 149,
+          "description": "Grilled chicken burger",
+          "category": "Burgers",
+          "image": "/static/images/burgers/chicken-burger.jpg"
+        },
+        {
+          "id": 6,
+          "name": "Double Cheese Burger",
+          "price": 179,
+          "description": "Double patty with extra cheese",
+          "category": "Burgers",
+          "image": "/static/images/burgers/double-cheese-burger.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Drinks",
+      "items": [
+        {
+          "id": 7,
+          "name": "Coca Cola",
+          "price": 40,
+          "description": "Chilled soft drink",
+          "category": "Drinks",
+          "image": "/static/images/drinks/coca-cola.jpg"
+        },
+        {
+          "id": 8,
+          "name": "Fresh Lime Soda",
+          "price": 60,
+          "description": "Refreshing lime soda",
+          "category": "Drinks",
+          "image": "/static/images/drinks/fresh-lime-soda.jpg"
+        },
+        {
+          "id": 9,
+          "name": "Butter Milk",
+          "price": 50,
+          "description": "Traditional chaas",
+          "category": "Drinks",
+          "image": "/static/images/drinks/buttermilk.jpg"
+        }
+      ]
+    },
+    {
+      "name": "South Indian",
+      "items": [
+        {
+          "id": 10,
+          "name": "Masala Dosa",
+          "price": 120,
+          "description": "Crispy dosa with potato filling",
+          "category": "South Indian",
+          "image": "/static/images/south-indian/masala-dosa.jpg"
+        },
+        {
+          "id": 11,
+          "name": "Idli Sambhar",
+          "price": 80,
+          "description": "Soft idlis with sambhar",
+          "category": "South Indian",
+          "image": "/static/images/south-indian/idli-sambhar.jpg"
+        },
+        {
+          "id": 12,
+          "name": "Vada",
+          "price": 50,
+          "description": "Crispy lentil donuts",
+          "category": "South Indian",
+          "image": "/static/images/south-indian/vada.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Desserts",
+      "items": [
+        {
+          "id": 13,
+          "name": "Gulab Jamun",
+          "price": 70,
+          "description": "Sweet fried milk balls",
+          "category": "Desserts",
+          "image": "/static/images/desserts/gulab-jamun.jpg"
+        },
+        {
+          "id": 14,
+          "name": "Ice Cream",
+          "price": 90,
+          "description": "Vanilla chocolate strawberry",
+          "category": "Desserts",
+          "image": "/static/images/desserts/ice-cream.jpg"
+        },
+        {
+          "id": 15,
+          "name": "Brownie",
+          "price": 120,
+          "description": "Chocolate brownie",
+          "category": "Desserts",
+          "image": "/static/images/desserts/brownie.jpg"
+        }
+      ]
+    },
+    {
+      "name": "Combo Meals",
+      "items": [
+        {
+          "id": 16,
+          "name": "Pizza Combo",
+          "price": 499,
+          "description": "Pizza + Drink + Dessert",
+          "category": "Combo Meals",
+          "image": "/static/images/combos/pizza-combo.jpg"
+        },
+        {
+          "id": 17,
+          "name": "Burger Combo",
+          "price": 249,
+          "description": "Burger + Fries + Drink",
+          "category": "Combo Meals",
+          "image": "/static/images/combos/burger-combo.jpg"
+        },
+        {
+          "id": 18,
+          "name": "South Indian Combo",
+          "price": 199,
+          "description": "Dosa + Idli + Vada + Coffee",
+          "category": "Combo Meals",
+          "image": "/static/images/combos/south-indian-combo.jpg"
+        }
+      ]
+    }
+  ]
+}
