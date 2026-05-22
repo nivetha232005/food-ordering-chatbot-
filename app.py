@@ -235,9 +235,6 @@ def checkout():
     total = sum(item['price'] * item['quantity'] for item in cart)
     return render_template('checkout.html', cart=cart, total=total)
 
-@app.route('/admin')
-def admin():
-    return render_template('admin.html')
 
 @app.route('/api/menu', methods=['GET'])
 def get_menu_api():
